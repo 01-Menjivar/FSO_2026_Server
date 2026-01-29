@@ -92,7 +92,7 @@ app.get('/api/persons', (request, response) => {
 // })
 
 app.get('/api/persons/:id', (request, response) => {
-  Note.findById(request.params.id).then(person => {
+  Person.findById(request.params.id).then(person => {
     response.json(person)
   })
 })
@@ -112,21 +112,17 @@ app.post('/api/persons', (request, response) => {
   const body = request.body
   // const name = request.body.name
 
-  if (body.content === undefined) {
-    return response.status(400).json({ error: 'content missing' })
+  if (!body.name) {
+    return response.status(400).json({ 
+      error: 'name missing' 
+    })
   }
 
-  // if (!body.name) {
-  //   return response.status(400).json({ 
-  //     error: 'name missing' 
-  //   })
-  // }
-
-  //  if (!body.number) {
-  //   return response.status(400).json({ 
-  //     error: 'number missing' 
-  //   })
-  // }
+   if (!body.number) {
+    return response.status(400).json({ 
+      error: 'number missing' 
+    })
+  }
 
   // if(persons.map(p => p.name).includes(name)){
   //   return response.status(400).json({
