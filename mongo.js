@@ -5,7 +5,7 @@ const name = process.argv[3]
 const number = process.argv[4]
 
 const url =
-    
+
   `mongodb+srv://fullstack:${password}@cluster0.sv289yu.mongodb.net/?appName=Cluster0`
 
 mongoose.set('strictQuery',false)
@@ -20,22 +20,22 @@ const personSchema = new mongoose.Schema({
 const Person = mongoose.model('Person', personSchema)
 
 const person = new Person({
-    name: name,
-    number: number
+  name: name,
+  number: number
 })
 
 if (process.argv.length<4) {
-    console.log('phonebook:')
-    Person.find({}).then(result => {
-        result.forEach(person => {
-          console.log(`${person.name} ${person.number}`)
-        })
-        mongoose.connection.close()
-      })
-      return
+  console.log('phonebook:')
+  Person.find({}).then(result => {
+    result.forEach(person => {
+      console.log(`${person.name} ${person.number}`)
+    })
+    mongoose.connection.close()
+  })
+  return
 }
 
-person.save().then(result => {
+person.save().then(() => {
   console.log(`added ${name} number ${number} to phonebook`)
   mongoose.connection.close()
 })
