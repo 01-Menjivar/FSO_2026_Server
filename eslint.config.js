@@ -25,4 +25,21 @@ module.exports = [
   {
     ignores: ['dist/**', 'node_modules/**'],
   },
+  {
+    files: ['cypress/**/*.js'],
+    languageOptions: {
+      globals: {
+        cy: 'readonly',
+        Cypress: 'readonly',
+        expect: 'readonly',
+        assert: 'readonly',
+        describe: 'readonly',
+        it: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        before: 'readonly',
+        after: 'readonly',
+      },
+    },
+  },
 ]
