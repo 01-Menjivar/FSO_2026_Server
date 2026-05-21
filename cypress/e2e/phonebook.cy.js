@@ -90,4 +90,30 @@ describe('Phonebook App', () => {
     // Ada Lovelace should still be visible
     cy.contains('Ada Lovelace 39-44-5323523').should('be.visible')
   })
+
+  it('shows an error notification when backend validation fails', () => {
+    const errorMessage = 'Person validation failed: name: Path `name` (`ab`) is shorter than the minimum allowed length (3).'
+
+    // Intercept POST request and return a 400 Bad Request
+    cy.intercept('POST', '/api/persons', {
+      statusCode: 400,
+      body: { error: errorMessage }
+    }).as('addContactFail')
+
+    // Find the Form inputs and type an invalid contact
+    cy.get('form').within(() => {
+      cy.get('input').eq(0).type('ab')
+      cy.get('input').eq(1).type('12-34-56789')
+      cy.get('button[type="submit"]').click()
+    })
+
+    // Wait for the POST request to complete
+    cy.wait('@addContactFail')
+
+    // Verify the error notification is shown
+    cy.get('.notification-box.error')
+      .should('be.visible')
+      .and('contain', errorMessage)
+  })
 })
+
